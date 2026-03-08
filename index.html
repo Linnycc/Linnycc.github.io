@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zora Li</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #f0f4f8;
+      --card:    #ffffff;
+      --black:   #1a1a2e;
+      --gray:    #6b7280;
+      --light:   #9ca3af;
+      --accent:  #3b82f6;
+      --accent2: #8b5cf6;
+      --border:  #e2e8f0;
+      --font: 'Georgia', 'Times New Roman', serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--black);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Page wrapper ── */
+    .page { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+    /* ── PROFILE CARD ── */
+    .profile-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 2.5rem 2.5rem 2rem;
+      display: grid;
+      grid-template-columns: 175px 1fr;
+      gap: 0 2.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    }
+
+    /* ── LEFT COLUMN ── */
+    .profile-left { display: flex; flex-direction: column; align-items: center; gap: 0.85rem; }
+    .avatar-wrap {
+      width: 108px; height: 108px; border-radius: 50%;
+      background: linear-gradient(135deg, #dbeafe, #ede9fe);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; font-weight: 700; color: var(--accent);
+      letter-spacing: -0.03em; flex-shrink: 0; overflow: hidden;
+    }
+    .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+    /* location tag */
+    .loc-tag {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.72rem; font-weight: 500; color: var(--gray);
+      background: #f8fafc; border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.2rem 0.6rem;
+    }
+
+    /* mini info blocks */
+    .left-block {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 0.8rem;
+    }
+    .left-block-label {
+      font-size: 0.63rem; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--light); margin-bottom: 0.45rem;
+    }
+    .left-block-row {
+      display: flex; align-items: center; gap: 0.35rem;
+      font-size: 0.73rem; color: var(--gray);
+      padding: 0.12rem 0; line-height: 1.4;
+    }
+    .left-block-row .flag { font-size: 0.8rem; }
+
+    /* ── RIGHT COLUMN ── */
+    .profile-right { display: flex; flex-direction: column; }
+    .profile-name {
+      font-family: var(--font);
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      line-height: 1.15; color: var(--black); margin-bottom: 0.5rem;
+    }
+    .profile-role {
+      font-size: 0.88rem; color: var(--gray);
+      line-height: 1.6; margin-bottom: 1rem; max-width: 520px;
+    }
+    .profile-role .hl { color: var(--accent); font-weight: 600; }
+    .social-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.1rem; margin-bottom: 1.25rem; }
+    .social-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--gray);
+      text-decoration: none; transition: color 0.15s;
+    }
+    .social-link:hover { color: var(--accent); }
+    .profile-bio { font-size: 0.87rem; color: #4b5563; line-height: 1.7; }
+    .profile-bio p + p { margin-top: 0.6rem; }
+
+    /* ── SECTION CARD ── */
+    .section { margin-bottom: 1.75rem; }
+    .section-card {
+      background: var(--card); border-radius: 14px;
+      overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .section-header-row {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 1.1rem 1.75rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon { font-size: 1rem; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray);
+    }
+
+    /* ── SKILL ROW ── */
+    .skill-row {
+      display: flex; align-items: center; gap: 0;
+      padding: 0.85rem 1.75rem;
+      border-bottom: 1px solid var(--border); font-size: 0.88rem;
+    }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-name { width: 150px; flex-shrink: 0; color: var(--gray); font-weight: 500; font-size: 0.85rem; }
+    .skill-items { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+    .skill-ext-link {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      font-size: 0.72rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; margin-left: 0.4rem;
+      border: 1px solid #bfdbfe; border-radius: 100px;
+      padding: 0.18rem 0.55rem; background: #eff6ff; transition: background 0.15s;
+    }
+    .skill-ext-link:hover { background: #dbeafe; }
+
+    /* badges */
+    .project-badge {
+      font-size: 0.67rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 0.18rem 0.55rem; border-radius: 100px;
+      white-space: nowrap;
+    }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-purple { background: #ede9fe; color: #7c3aed; }
+    .badge-gold   { background: #fef3c7; color: #92400e; }
+    .badge-green  { background: #dcfce7; color: #15803d; }
+    .badge-gray   { background: #f1f5f9; color: #475569; }
+
+    /* ── PROJECT ITEM ── */
+    .project-item { border-bottom: 1px solid var(--border); }
+    .project-item:last-child { border-bottom: none; }
+    .project-trigger {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.1rem 1.75rem;
+      cursor: pointer; transition: background 0.15s; user-select: none;
+    }
+    .project-trigger:hover { background: #f8fafc; }
+    .project-meta { flex: 1; min-width: 0; }
+    .project-title-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .project-title-link {
+      font-size: 0.97rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; line-height: 1.4;
+      border-bottom: 1px solid transparent; transition: border-color 0.15s;
+    }
+    .project-trigger:hover .project-title-link { border-color: var(--accent); }
+    .project-snippet {
+      font-size: 0.83rem; color: var(--gray); margin-top: 0.25rem;
+      line-height: 1.5; white-space: nowrap; overflow: hidden;
+      text-overflow: ellipsis; max-width: 560px;
+    }
+    .project-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; flex-shrink: 0; }
+    .project-date { font-size: 0.75rem; color: var(--light); font-weight: 500; white-space: nowrap; }
+    .chevron { font-size: 0.7rem; color: var(--light); transition: transform 0.25s; margin-top: 0.1rem; }
+    .project-item.open .chevron { transform: rotate(180deg); }
+
+    /* ── DETAIL PANEL ── */
+    .project-detail {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .project-item.open .project-detail { max-height: 2000px; opacity: 1; }
+    .detail-inner { padding: 0 1.75rem 1.5rem 1.75rem; border-top: 1px dashed var(--border); }
+    .detail-inner h4 {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--light); margin: 1.1rem 0 0.5rem;
+    }
+    .detail-inner p { font-size: 0.88rem; color: #4b5563; line-height: 1.7; }
+    .detail-inner ul { margin-top: 0.25rem; }
+    .detail-inner li {
+      font-size: 0.86rem; color: #374151; padding: 0.2rem 0;
+      padding-left: 1.1rem; list-style: none; position: relative;
+    }
+    .detail-inner li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; }
+    .detail-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+    .detail-tag {
+      font-size: 0.72rem; font-weight: 600; padding: 0.22rem 0.65rem;
+      border-radius: 100px; background: #f1f5f9; color: #475569; border: 1px solid var(--border);
+    }
+    .detail-link {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.82rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; margin-top: 0.75rem; transition: gap 0.2s;
+    }
+    .detail-link:hover { gap: 0.5rem; }
+
+    /* ── EXP ITEM ── */
+    .exp-item {
+      display: grid; grid-template-columns: 100px 1fr;
+      gap: 0 1.25rem; padding: 1rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-date { font-size: 0.76rem; color: var(--light); font-weight: 500; padding-top: 2px; line-height: 1.4; }
+    .exp-body h3 { font-size: 0.95rem; font-weight: 700; color: var(--black); }
+    .exp-body .exp-org { font-size: 0.82rem; color: var(--accent); font-weight: 600; margin-bottom: 0.3rem; }
+    .exp-body p, .exp-body li { font-size: 0.83rem; color: #6b7280; line-height: 1.6; }
+    .exp-body ul { margin-top: 0.25rem; }
+    .exp-body li { padding-left: 0.9rem; position: relative; list-style: none; }
+    .exp-body li::before { content: '·'; position: absolute; left: 0; font-weight: 700; }
+
+    /* ── Responsive ── */
+    @media (max-width: 620px) {
+      .profile-card { grid-template-columns: 1fr; gap: 1.5rem 0; padding: 1.75rem; }
+      .profile-left { flex-direction: column; align-items: center; }
+      .left-block { width: 100%; }
+      .project-snippet { white-space: normal; }
+      .exp-item { grid-template-columns: 80px 1fr; }
+      .skill-row { flex-direction: column; gap: 0.35rem; }
+      .skill-name { width: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── 1. PROFILE CARD ── -->
+  <div class="profile-card">
+
+    <!-- LEFT: avatar + location + languages + hobbies -->
+    <div class="profile-left">
+      <div class="avatar-wrap"><img src="IMG_7610.JPG" alt="Zora Li" /></div>
+
+      <span class="loc-tag">📍 Toronto, Canada</span>
+
+      <!-- Languages block -->
+      <div class="left-block">
+        <div class="left-block-label">Languages</div>
+        <div class="left-block-row"><span class="flag">🇨🇦</span> English (Proficient)</div>
+        <div class="left-block-row"><span class="flag">🇨🇳</span> Chinese (Native)</div>
+      </div>
+
+      <!-- Hobbies block -->
+      <div class="left-block">
+        <div class="left-block-label">Interests</div>
+        <div class="left-block-row">🏦 Financial news</div>
+        <div class="left-block-row">🎾 Tennis</div>
+        <div class="left-block-row">🏂 Skiing</div>
+        <div class="left-block-row">⛳ Golf</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: name + role + social + bio -->
+    <div class="profile-right">
+      <h1 class="profile-name">Zora (Yuchan) Li</h1>
+      <p class="profile-role">
+        <span class="hl">Statistics Major</span> · <span class="hl">Economics Minor</span> · <span class="hl">Mathematics Minor</span><br>
+        University of Toronto · Quantitative Finance · Time Series · Machine Learning ·
+        Seeking roles in Data Science, Quant Research, and Financial Analytics.
+      </p>
+      <div class="social-links">
+        <a href="mailto:zoraleeyc@gmail.com" class="social-link">
+          <span>✉</span> Email: Zoraleeyc@gmail.com
+        </a>
+        <a href="tel:6476139746" class="social-link">
+          <span>🇨🇦</span> 647-613-9746
+        </a>
+      </div>
+      <div class="profile-bio">
+        <p>I'm a Statistics student at UofT focused on quantitative finance,
+        time series forecasting, and multivariate statistical methods.
+        I build end-to-end analytical pipelines — from raw data preprocessing
+        and econometric modelling to interactive dashboards and deployable applications.</p>
+        <p>My work spans commodity price forecasting, credit risk analysis,
+        behavioral finance, and educational data science.
+        I apply rigorous statistical methods to deliver clear, actionable insights
+        across research and industry contexts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2. HIGHLIGHT SKILLS ── -->
+  <div class="section">
+    <div class="section-card">
+      <div class="section-header-row">
+        <span class="section-icon">⚙️</span>
+        <span class="section-label">Highlight Skills</span>
+      </div>
+
+      <div class="skill-row">
+        <div class="skill-name">Languages</div>
+        <div class="skill-items">
+          <span class="project-badge badge-blue">R / RStudio</span>
+          <span class="project-badge badge-blue">Python</span>
+          <span class="project-badge badge-blue">SQL</span>
+          <span class="project-badge badge-gray">SAS</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <div class="skill-name">Modelling</div>
+        <div class="skill-items">
+          <span class="project-badge badge-purple">Statistical Modelling</span>
+          <span class="project-badge badge-purple">Time Series Forecasting</span>
+          <span class="project-badge badge-purple">PCA / Factor Analysis</span>
+          <span class="project-badge badge-purple">Clustering (K-means · GMM)</span>
+          <span class="project-badge badge-purple">Copula Models</span>
+          <span class="project-badge badge-purple">GAM / GLM</span>
+          <span class="project-badge badge-purple">Regression (Linear · Logistic · Ridge)</span>
+          <span class="project-badge badge-purple">Random Forest · XGBoost</span>
+          <span class="project-badge badge-purple">SVM · Neural Networks</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <div class="skill-name">Visualization</div>
+        <div class="skill-items">
+          <span class="project-badge badge-green">R Shiny</span>
+          <span class="project-badge badge-green">Power BI</span>
+          <span class="project-badge badge-green">RMarkdown</span>
+          <span class="project-badge badge-green">Jupyter</span>
+          <span class="project-badge badge-green">LaTeX</span>
+        </div>
+      </div>
+
+      <div class="skill-row">
+        <div class="skill-name">Finance</div>
+        <div class="skill-items">
+          <span class="project-badge badge-gold">Financial Modeling</span>
+          <span class="project-badge badge-gold">CDS / Derivatives</span>
+          <span class="project-badge badge-gold">Volatility Analysis</span>
+          <span class="project-badge badge-gold">Excel</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 3. EDUCATION ── -->
+  <div class="section">
+    <div class="section-card">
+      <div class="section-header-row">
+        <span class="section-icon">🎓</span>
+        <span class="section-label">Education</span>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Sep 2022<br/>May 2026</div>
+        <div class="exp-body">
+          <h3>Bachelor of Science</h3>
+          <div class="exp-org">University of Toronto</div>
+          <p>Statistics Major · Economics Minor · Mathematics Minor · Expected 2026</p>
+          <ul>
+            <li>Courses: Machine Learning, Time Series Analysis, Multivariate Data Methods, Linear &amp; Non-Linear Optimization, Data Visualization, Complex Variables</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. EXPERIENCE ── -->
+  <div class="section">
+    <div class="section-card">
+      <div class="section-header-row">
+        <span class="section-icon">💼</span>
+        <span class="section-label">Experience</span>
+      </div>
+
+      <!-- 1st: Intern 2024 -->
+      <div class="exp-item">
+        <div class="exp-date">May–Aug<br/>2024</div>
+        <div class="exp-body">
+          <h3>Financial Analyst Intern</h3>
+          <div class="exp-org">Yu Sheng Mining Co. · Dalian, China</div>
+          <ul>
+            <li>Created monthly financial reports for company expenses and revenue streams</li>
+            <li>Quarterly tax preparation with zero penalties; payroll for 60 employees (100% accuracy)</li>
+            <li>Cost-benefit analysis of mining projects using Excel financial modelling</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2nd: Research 2025 -->
+      <div class="exp-item">
+        <div class="exp-date">Jun 2025<br/>Remote</div>
+        <div class="exp-body">
+          <h3>Research Contributor</h3>
+          <div class="exp-org">Applied AI Lab — University of Zurich</div>
+          <ul>
+            <li>Feature engineering on multi-source student datasets under Prof. Yash Raj Shrestha</li>
+            <li>Identified data silo issues blocking predictive modelling for educational analytics</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3rd: VP -->
+      <div class="exp-item">
+        <div class="exp-date">May 2023<br/>Present</div>
+        <div class="exp-body">
+          <h3>VP of Sponsor Team</h3>
+          <div class="exp-org">Chinese Undergraduate Association — UofT</div>
+          <ul>
+            <li>Secured $20,000 in sponsorships for annual Chinese New Year event (300+ attendees)</li>
+            <li>Maintained relationships with 15+ local businesses; coordinated logistics for multiple cultural events</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 5. PROJECTS & COMPETITIONS ── -->
+  <div class="section">
+    <div class="section-card">
+      <div class="section-header-row">
+        <span class="section-icon">🗂</span>
+        <span class="section-label">Projects &amp; Competitions</span>
+      </div>
+
+      <!-- 1. Fintech Competition -->
+      <div class="project-item" id="p1">
+        <div class="project-trigger" onclick="toggle('p1')">
+          <div class="project-meta">
+            <div class="project-title-row">
+              <span class="project-title-link">SnowConnect+ — Fintech Innovation Competition</span>
+              <span class="project-badge badge-gold">🏆 Semi-Finalist · Top 8 Canada</span>
+            </div>
+            <div class="project-snippet">Data-driven fintech product for 1M+ Canadian snowbirds — telehealth, community platform, real-time location sharing</div>
+          </div>
+          <div class="project-right">
+            <span class="project-date">Nov 2025</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="project-detail">
+          <div class="detail-inner">
+            <h4>Overview</h4>
+            <p>Designed and pitched <strong>SnowConnect+</strong> in the Humania / Tour+Med Fintech Innovation Competition
+            (FinTech Cadence). The platform addresses three data-validated pain points for Canada's 1M+ snowbird
+            population through integrated fintech, telehealth, and community infrastructure.
+            Advanced to the semi-finals as one of the top 8 teams nationally.</p>
+            <h4>Key Work</h4>
+            <ul>
+              <li><strong>Market Sizing &amp; User Research:</strong> Quantified target segments — 73.6% aged 65–75, 89.6% in Class 1–4 health risk — to validate addressable market and pricing strategy</li>
+              <li><strong>Cross-border Healthcare Solution:</strong> Solved medication access gap (affecting 72% of users) via Teladoc telehealth API — enabling legal e-prescriptions abroad and direct insurer billing</li>
+              <li><strong>Social Isolation Feature:</strong> Built case for community hub addressing 58% of seniors reporting isolation abroad, with verified local snowbird event aggregation</li>
+              <li><strong>Privacy-first Location Sharing:</strong> Designed user-controlled real-time location system with configurable frequency and recipient controls</li>
+              <li><strong>Financial Model:</strong> Built unit economics and revenue model underpinning the business case for judges</li>
+            </ul>
+            <h4>Result</h4>
+            <p>Top 8 nationally out of a competitive field. Judges cited strong evidence base, product clarity, and feasibility of the fintech integration.</p>
+            <div class="detail-tags">
+              <span class="detail-tag">Market Research</span>
+              <span class="detail-tag">Business Case</span>
+              <span class="detail-tag">Financial Modelling</span>
+              <span class="detail-tag">FinTech</span>
+              <span class="detail-tag">Product Strategy</span>
+              <span class="detail-tag">UX Design</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Behavioral Trading App -->
+      <div class="project-item" id="p4">
+        <div class="project-trigger" onclick="toggle('p4')">
+          <div class="project-meta">
+            <div class="project-title-row">
+              <span class="project-title-link">Execution Risk &amp; Behavioral Trading Analytics</span>
+              <span class="project-badge badge-purple">Self-Initiated · Ongoing</span>
+            </div>
+            <div class="project-snippet">Statistical detection of overtrading, revenge trading, and execution anomalies using Poisson intensity modelling</div>
+          </div>
+          <div class="project-right">
+            <span class="project-date">Jan 2026→</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="project-detail">
+          <div class="detail-inner">
+            <h4>Overview</h4>
+            <p>Built an interactive behavioral risk analytics tool that identifies execution anomalies
+            and performance-degrading trading patterns from transaction-level data.
+            Motivated by the quantitative finance literature on how emotional trading regimes
+            systematically erode risk-adjusted returns.</p>
+            <h4>Methodology</h4>
+            <ul>
+              <li><strong>Trading Intensity Modelling:</strong> Poisson-based baseline estimation to detect statistically abnormal bursts in order frequency</li>
+              <li><strong>Drawdown–Activity Correlation:</strong> Identified "revenge trading" signals where loss magnitude positively correlates with subsequent order flow</li>
+              <li><strong>Edge Degradation Testing:</strong> Entropy-based edge tests and risk-reward diagnostics quantify whether higher trading frequency destroys alpha</li>
+              <li><strong>Execution Visualization:</strong> Heatmaps and scatter plots mapping cumulative PnL trajectories against trading intensity regimes</li>
+            </ul>
+            <h4>Significance</h4>
+            <p>Provides a quantitative framework for detecting the behavioural biases — overconfidence, loss aversion, and revenge trading — that quantitative risk managers seek to control in systematic strategies.</p>
+            <div class="detail-tags">
+              <span class="detail-tag">Python</span>
+              <span class="detail-tag">Behavioral Finance</span>
+              <span class="detail-tag">Poisson Intensity Models</span>
+              <span class="detail-tag">Execution Analytics</span>
+              <span class="detail-tag">Risk Management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. AI Education Research -->
+      <div class="project-item" id="p6">
+        <div class="project-trigger" onclick="toggle('p6')">
+          <div class="project-meta">
+            <div class="project-title-row">
+              <span class="project-title-link">Adaptive Learning &amp; LLM Personalization Research</span>
+              <span class="project-badge badge-gray">Univ. of Zurich · Applied AI Lab</span>
+            </div>
+            <div class="project-snippet">Multi-source student data engineering · LLM adaptive learning framework · diagnosed data infrastructure barriers</div>
+          </div>
+          <div class="project-right">
+            <span class="project-date">Jun 2025</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="project-detail">
+          <div class="detail-inner">
+            <h4>Overview</h4>
+            <p>Research contributor to Prof. Yash Raj Shrestha's Applied AI Lab at the University of Zurich.
+            Investigated how LLMs can enable personalized adaptive learning and identified the key
+            data infrastructure bottlenecks preventing scalable student outcome prediction in higher education.</p>
+            <h4>Key Work</h4>
+            <ul>
+              <li><strong>Data Engineering:</strong> Built and cleaned multi-source student datasets spanning academic, behavioral, and engagement dimensions across institutional silos</li>
+              <li><strong>Exploratory Analysis:</strong> Applied univariate and multivariate statistical analysis to surface cross-source feature patterns relevant to learning outcome prediction</li>
+              <li><strong>Data Silo Diagnosis:</strong> Identified systemic fragmentation across institutional data sources as the primary structural blocker to predictive analytics at scale</li>
+              <li><strong>LLM Integration Framework:</strong> Established that LLMs can dynamically adapt learning goals, content modality, and difficulty per student profile when paired with structured data pipelines</li>
+            </ul>
+            <h4>Findings &amp; Impact</h4>
+            <p>Proposed a data integration roadmap as a prerequisite for scalable EdTech analytics pipelines.
+            Findings contributed to the lab's research on AI-driven personalization in institutional learning environments.</p>
+            <div class="detail-tags">
+              <span class="detail-tag">Python</span>
+              <span class="detail-tag">Feature Engineering</span>
+              <span class="detail-tag">Multivariate Analysis</span>
+              <span class="detail-tag">LLM</span>
+              <span class="detail-tag">Data Engineering</span>
+              <span class="detail-tag">EdTech</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. CDS Analysis -->
+      <div class="project-item" id="p2">
+        <div class="project-trigger" onclick="toggle('p2')">
+          <div class="project-meta">
+            <div class="project-title-row">
+              <span class="project-title-link">Systemic Credit Risk Modelling — CDS Market Analysis</span>
+              <span class="project-badge badge-blue">Credit Risk · Quant Research</span>
+            </div>
+            <div class="project-snippet">Credit term structure decomposition across 600+ firms · 10 maturities · contagion &amp; tail risk during COVID-19 shock</div>
+          </div>
+          <div class="project-right">
+            <span class="project-date">Mar 2025</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="project-detail">
+          <div class="detail-inner">
+            <h4>Overview</h4>
+            <p>Analyzed a high-dimensional CDS spread panel — 600+ firms, 10 tenor maturities (1Y–30Y), 2015–2021 —
+            to quantify how the COVID-19 shock restructured the credit risk surface: term shape convergence,
+            cross-firm contagion, and tail co-movement. Applied the core toolkit of multivariate credit risk modelling.</p>
+            <h4>Methods &amp; Key Results</h4>
+            <ul>
+              <li><strong>Regime Shift Test:</strong> Welch t-test confirmed <strong>86.6% average CDS volatility surge</strong> (p = 8.62 × 10⁻⁵) — statistically establishing a structural break at COVID onset</li>
+              <li><strong>Term Structure Decomposition:</strong> PCA + Factor Analysis revealed convergence of short- and long-tenor risk factors during the crisis — signature of systemic stress flattening the term structure</li>
+              <li><strong>Risk Segmentation:</strong> K-means + GMM clustering showed a <strong>51.5% surge</strong> in firms entering the high-risk tier during the shock</li>
+              <li><strong>Tail Contagion Modelling:</strong> Copula models isolated joint tail dependencies across maturities, mapping channels through which credit stress propagated across the term structure</li>
+              <li><strong>Spillover Detection:</strong> Granger causality found a <strong>45% increase</strong> in strong inter-tenor directional links — direct evidence of systemic contagion dynamics</li>
+              <li><strong>Network Analysis:</strong> Correlation network maps showed how inter-firm credit dependencies collapsed into denser high-risk clusters during the crisis</li>
+            </ul>
+            <h4>Significance</h4>
+            <p>Demonstrates end-to-end credit risk analytics on real CDS market data — term structure decomposition,
+            contagion quantification, and tail risk modelling — tools directly applicable to fixed income research and credit desk analytics.</p>
+            <h4>Score</h4>
+            <p style="color:#15803d;font-weight:700;">100 / 100</p>
+            <div class="detail-tags">
+              <span class="detail-tag">R</span>
+              <span class="detail-tag">PCA / Factor Analysis</span>
+              <span class="detail-tag">K-means · GMM</span>
+              <span class="detail-tag">Copula Models</span>
+              <span class="detail-tag">Granger Causality</span>
+              <span class="detail-tag">CDS / Credit Risk</span>
+              <span class="detail-tag">Network Analysis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Cocoa Forecasting -->
+      <div class="project-item" id="p3">
+        <div class="project-trigger" onclick="toggle('p3')">
+          <div class="project-meta">
+            <div class="project-title-row">
+              <span class="project-title-link">Commodity Price Risk Forecasting — Cocoa Futures</span>
+              <span class="project-badge badge-purple">Econometric Research</span>
+            </div>
+            <div class="project-snippet">Hybrid SARIMAX + IGARCH price-volatility framework · 21.7% RMSE reduction · 6.97% MAPE · climate signal extraction</div>
+          </div>
+          <div class="project-right">
+            <span class="project-date">Mar 2025</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="project-detail">
+          <div class="detail-inner">
+            <h4>Overview</h4>
+            <p>Engineered an integrated price-and-volatility forecasting framework for global cocoa futures,
+            motivated by the 2022–2024 West Africa supply crisis that drove cocoa to 50-year price highs.
+            The framework jointly models price level dynamics (SARIMAX) and persistent volatility risk
+            (IGARCH), blended via EWMA for a 12-month forward risk-adjusted forecast.
+            Climate variables and structural break detection are embedded as core model inputs.</p>
+            <h4>Methodology</h4>
+            <ul>
+              <li><strong>Structural Break Detection:</strong> Bai-Perron test pinpointed a regime shift in Feb 2023 coinciding with the West Africa supply collapse — enabling regime-conditional model specification</li>
+              <li><strong>Climate Signal Extraction:</strong> GAM analysis identified a 3-month lagged Ghana temperature signal as a statistically significant supply-side predictor (p = 0.037)</li>
+              <li><strong>STL Decomposition:</strong> Isolated trend, seasonal, and residual components across pre- and post-break regimes to improve model stationarity</li>
+              <li><strong>Price Level Forecasting:</strong> SARIMAX model incorporating seasonal dynamics and temperature exogenous variable for 12-month forward projections</li>
+              <li><strong>Volatility Risk Modelling:</strong> IGARCH captured non-mean-reverting (permanent) volatility persistence typical of commodity stress regimes</li>
+              <li><strong>Integrated Risk Output:</strong> EWMA blending of price and volatility forecasts into a final risk-adjusted price path</li>
+            </ul>
+            <h4>Results</h4>
+            <ul>
+              <li>21.7% RMSE reduction vs. ARIMAX baseline</li>
+              <li>6.97% MAPE in out-of-sample validation</li>
+            </ul>
+            <a href="https://zorali.shinyapps.io/cleaned_data/" target="_blank" class="detail-link">View Interactive Dashboard →</a>
+            <div class="detail-tags">
+              <span class="detail-tag">R</span>
+              <span class="detail-tag">SARIMAX</span>
+              <span class="detail-tag">IGARCH</span>
+              <span class="detail-tag">EWMA</span>
+              <span class="detail-tag">GAM</span>
+              <span class="detail-tag">Bai-Perron</span>
+              <span class="detail-tag">Commodity Risk</span>
+              <span class="detail-tag">R Shiny</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Immigrant Homeownership -->
+      <div class="project-item" id="p5">
+        <div class="project-trigger" onclick="toggle('p5')">
+          <div class="project-meta">
+            <div class="project-title-row">
+              <span class="project-title-link">Immigrant Homeownership Gap — 25-Year Visualization</span>
+              <span class="project-badge badge-green">Data Viz · Policy Analytics</span>
+              <a href="https://zorali.shinyapps.io/cleaned_data/" target="_blank" class="skill-ext-link" onclick="event.stopPropagation()">↗ Live Demo</a>
+            </div>
+            <div class="project-snippet">Interactive choropleth + filter dashboard · 6 Census waves (1996–2021) · 13 provinces · immigrant housing equity analysis</div>
+          </div>
+          <div class="project-right">
+            <span class="project-date">2025</span>
+            <span class="chevron">▼</span>
+          </div>
+        </div>
+        <div class="project-detail">
+          <div class="detail-inner">
+            <h4>Overview</h4>
+            <p>Built an interactive decision-support dashboard enabling policymakers to track the
+            homeownership gap between immigrants and non-immigrants across Canada's 13 provinces and territories,
+            using six Census datasets spanning 25 years (1996–2021).
+            Designed to directly support evaluation of housing equity programs and immigration policy effectiveness.</p>
+            <h4>Design &amp; Technical Decisions</h4>
+            <ul>
+              <li><strong>Choropleth Map:</strong> RdYlGn diverging palette encodes gap direction — green (immigrants ahead), yellow (parity), red (immigrants behind) — for immediate spatial pattern recognition</li>
+              <li><strong>Dual Metric Toggle:</strong> Absolute gap (percentage-point) vs. relative gap (% of baseline) for different policy framing needs</li>
+              <li><strong>Filter Panel:</strong> Census year, ethnic group, immigration period, province highlight — enabling segmented policy evaluation</li>
+              <li><strong>Summary Cards:</strong> Color-matched to map legend for instant quantitative context at any active filter state</li>
+              <li><strong>Data Handling:</strong> Northern territories suppressed (gray) where Census cell sizes fall below 100 — preventing misleading inference from small samples</li>
+            </ul>
+            <h4>Results &amp; Significance</h4>
+            <p>Deployed as a fully interactive R Shiny application. Translates 25 years of Census microdata
+            into a live policy tool for evaluating the immigrant housing gap under interventions like
+            Provincial Nominee Programs and the 2017 Foreign Buyers Tax — bridging statistical analysis and public policy decision-making.</p>
+            <div class="detail-tags">
+              <span class="detail-tag">R Shiny</span>
+              <span class="detail-tag">R</span>
+              <span class="detail-tag">Census Data</span>
+              <span class="detail-tag">Choropleth Map</span>
+              <span class="detail-tag">Policy Analytics</span>
+              <span class="detail-tag">UX Design</span>
+              <span class="detail-tag">Data Wrangling</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  function toggle(id) {
+    const item = document.getElementById(id);
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

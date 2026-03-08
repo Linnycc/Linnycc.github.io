@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pdftotext /Users/liyuchan/Desktop/YuchanLi_CV_finance.pdf -)",
+      "Bash(python3 -c \"import pypdf; print\\(''pypdf ok''\\)\")",
+      "Bash(python3 -c \"import PyPDF2; print\\(''PyPDF2 ok''\\)\")",
+      "Bash(python3 -c \"import pdfplumber; print\\(''pdfplumber ok''\\)\")",
+      "Bash(pip3 install pypdf --quiet)",
+      "Bash(python3 -c \":*)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(git -C /Users/liyuchan/cv status)",
+      "Bash(git init)",
+      "Bash(git add index.html)",
+      "Bash(git commit -m \"Initial portfolio\")"
+    ]
+  }
+}
